@@ -10,7 +10,7 @@ const TicTacToCSS = styled.div`
 class TicTacToe extends Component {
   state = {
     fieldsCount: 9,
-    nextPlayer: null,
+    currentPlayer: null,
     activePlayerIndex: null,
     playingCount: [],
     startGame: true,
@@ -27,21 +27,21 @@ class TicTacToe extends Component {
 
     if (e.target.innerText === '' && !this.state.playingCount.length) {
       this.setState({
-        nextPlayer: 0,
+        currentPlayer: 0,
         activePlayerIndex: index,
         playingCount: playingCount
       })
-    } else if (e.target.innerText === '' && this.state.nextPlayer === 0) {
+    } else if (e.target.innerText === '' && this.state.currentPlayer === 0) {
       this.setState({
         playingCount: playingCount,
         activePlayerIndex: index,
-        nextPlayer: 1
+        currentPlayer: 1
       })
-    } else if (e.target.innerText === '' && this.state.nextPlayer === 1) {
+    } else if (e.target.innerText === '' && this.state.currentPlayer === 1) {
       this.setState({
         playingCount: playingCount,
         activePlayerIndex: index,
-        nextPlayer: 0
+        currentPlayer: 0
       })
     }
 
@@ -60,7 +60,7 @@ class TicTacToe extends Component {
               fieldsCount={this.state.fieldsCount}
               clicked={(e, i) => this.clickTargetHandler(e, i)}
               playingCount={this.state.playingCount}
-              nextPlayer={this.state.nextPlayer}
+              currentPlayer={this.state.currentPlayer}
               activePlayerIndex={this.state.activePlayerIndex}
               startGame={this.state.startGame} />
         </TicTacToCSS>

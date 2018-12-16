@@ -20,14 +20,17 @@ const ticTacToeList = (props) => {
   for (let i = 0; i < props.fieldsCount; i++) {
     let activePlayer = '';
     if (props.activePlayerIndex === i) {
-      activePlayer = players[props.nextPlayer]
-    } else {
+      activePlayer = players[props.currentPlayer]
+    } else if (props.activePlayerIndex !== i && props.playingCount[i].prevIndex === i) {
+      activePlayer = props.playingCount[i].prevPlayer;
+    }
+    else {
       activePlayer = '';
     }
     ticTacListItem.push(
         <TicTacListItem
             key={i}
-            clicked={(e) => props.clicked(e, i)}>
+            clicked={(e) => props.clicked(e, {prevIndex: i, prevPlayer: players[i]})}>
           {activePlayer}
         </TicTacListItem>
     );
