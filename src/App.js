@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import TicTacToe from './containers/TicTacToe/TicTacToe';
+import TicTacList from './containers/TicTacList/TicTacList';
 
 class App extends Component {
   render() {
     return (
         <div className="App">
-          <TicTacToe />
+          <div style={{display: 'inline-block'}}>
+            <TicTacList />
+          </div>
         </div>
     )
   }

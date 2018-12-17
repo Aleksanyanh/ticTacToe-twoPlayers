@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const BoxCSS = styled.div`
@@ -27,10 +26,6 @@ const TicTacListItem = (props) => {
         {props.children}
       </BoxCSS>
   );
-};
-
-TicTacListItem.propTypes = {
-  clicked: PropTypes.func,
 };
 
 export default TicTacListItem;
