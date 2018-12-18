@@ -26,7 +26,6 @@ class TicTacToeList extends Component {
 
   componentWillMount() {
     const initTicTacBoard = [];
-
     for (let i = 0; i < this.state.fieldLimit; i++) {
       initTicTacBoard.push(this.state.emptyField);
     }
@@ -39,14 +38,13 @@ class TicTacToeList extends Component {
 
   updateTicTacBoard = (player, playerIndex) => {
     const board = [...this.state.ticTacBoard];
-    const updatedBoard = board.map((field, index) => {
+    return board.map((field, index) => {
       if (index === playerIndex) {
         return field = player;
       } else {
         return field;
       }
     });
-    return updatedBoard;
   };
 
   checkWinner = (player, updatedBoard) => {
@@ -84,18 +82,23 @@ class TicTacToeList extends Component {
       }
     }
 
-    if (filteredPlayersIndexArray.length === 3) {
-      calculateForLength3(filteredPlayersIndexArray);
-    } else if (filteredPlayersIndexArray.length === 4) {
-      for (let i = 0; i < filteredPlayersIndexArray.length; i++) {
+    function calculateForLength4() {
+      for (let i = 0; i < 4; i++) {
         let spliceArr = [...filteredPlayersIndexArray];
         spliceArr.splice(i, 1);
         calculateForLength3(spliceArr);
       }
+    }
+
+    if (filteredPlayersIndexArray.length === 3) {
+      calculateForLength3(filteredPlayersIndexArray);
+    } else if (filteredPlayersIndexArray.length === 4) {
+      calculateForLength4();
     } else if (filteredPlayersIndexArray.length === 5) {
       for (let i = 0; i < filteredPlayersIndexArray.length; i++) {
         let spliceArr = [...filteredPlayersIndexArray];
         spliceArr.splice(i, 1);
+        calculateForLength4();
         calculateForLength3(spliceArr);
       }
     }
@@ -128,7 +131,6 @@ class TicTacToeList extends Component {
         startGame: true
       });
       this.callWinner(firstPlayer, updatedBoard, 'First Player');
-
     }
 
     if (target === '' && nextPlayer === secondPlayer) {
