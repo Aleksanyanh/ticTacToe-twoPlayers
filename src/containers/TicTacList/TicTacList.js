@@ -67,6 +67,7 @@ class TicTacToeList extends Component {
         filteredPlayersIndexArray.push(index);
       }
     });
+
     function calculateForLength3(filteredPlayersLength3) {
       for (let i = 0; i < winnerModel.length; i++) {
         let counter = 0;
@@ -82,6 +83,7 @@ class TicTacToeList extends Component {
         }
       }
     }
+
     if (filteredPlayersIndexArray.length === 3) {
       calculateForLength3(filteredPlayersIndexArray);
     } else if (filteredPlayersIndexArray.length === 4) {
@@ -100,6 +102,17 @@ class TicTacToeList extends Component {
     return winner;
   };
 
+  callWinner = (player, updatedBoard, winnerName) => {
+    const winner = this.checkWinner(player, updatedBoard);
+    if (winner) {
+      this.setState({
+        ticTacBoard: updatedBoard,
+        winner: winnerName,
+        startGame: false
+      });
+    }
+  };
+
   playerClickHandler = (e, index) => {
     if (!this.state.startGame) return;
     const firstPlayer = this.state.firstPlayer;
@@ -109,19 +122,13 @@ class TicTacToeList extends Component {
 
     if (target === '' && nextPlayer === firstPlayer) {
       const updatedBoard = this.updateTicTacBoard(firstPlayer, index);
-      const winner = this.checkWinner(firstPlayer, updatedBoard);
       this.setState({
         ticTacBoard: updatedBoard,
         nextPlayer: secondPlayer,
         startGame: true
       });
-      if (winner) {
-        this.setState({
-          ticTacBoard: updatedBoard,
-          winner: 'First Player',
-          startGame: false
-        });
-      }
+      this.callWinner(firstPlayer, updatedBoard, 'First Player');
+
     }
 
     if (target === '' && nextPlayer === secondPlayer) {
@@ -131,6 +138,7 @@ class TicTacToeList extends Component {
         nextPlayer: firstPlayer,
         startGame: true
       });
+      this.callWinner(secondPlayer, updatedBoard, 'Second Player');
     }
   };
 
