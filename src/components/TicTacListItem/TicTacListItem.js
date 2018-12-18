@@ -22,7 +22,7 @@ const BoxCSS = styled.div`
 const TicTacListItem = (props) => {
 
   return (
-      <BoxCSS onClick={props.clicked}>
+      <BoxCSS onClick={props.playerClick}>
         {props.children}
       </BoxCSS>
   );
