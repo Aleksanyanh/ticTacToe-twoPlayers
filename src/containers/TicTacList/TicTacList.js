@@ -27,7 +27,7 @@ class TicTacToeList extends Component {
   componentWillMount() {
     const initTicTacBoard = [];
     for (let i = 0; i < this.state.fieldLimit; i++) {
-      initTicTacBoard.push(this.state.emptyField);
+      initTicTacBoard.push({ field: this.state.emptyField, drawField: '' });
     }
     this.setState({
       ticTacBoard: initTicTacBoard,
@@ -40,7 +40,9 @@ class TicTacToeList extends Component {
     const board = [...this.state.ticTacBoard];
     return board.map((field, index) => {
       if (index === playerIndex) {
-        return field = player;
+        const newBoard = field;
+        newBoard.field = player;
+        return newBoard;
       } else {
         return field;
       }
@@ -59,20 +61,25 @@ class TicTacToeList extends Component {
       [3, 4, 5],
       [6, 7, 8]
     ];
-    let filteredPlayersIndexArray = [];
+    let filteredPlayersIndex = [];
     updatedBoard.forEach((field, index) => {
-      if (field === player) {
-        filteredPlayersIndexArray.push(index);
+      if (field.field === player) {
+        filteredPlayersIndex.push(index);
       }
     });
 
     function calculateForLength3(filteredPlayersLength3) {
       for (let i = 0; i < winnerModel.length; i++) {
         let counter = 0;
+        let drawWinnerLocalBox = [];
         for (let j = 0; j < 3; j++) {
           if (winnerModel[i][j] === filteredPlayersLength3[j]) {
             counter++;
+            drawWinnerLocalBox.push(winnerModel[i][j]);
             if (counter > 2) {
+              drawWinnerLocalBox.map((elIndex) => {
+                return updatedBoard[elIndex].drawField = elIndex.toString();
+              });
               winner = player;
               i = winnerModel.length;
               break;
@@ -82,23 +89,23 @@ class TicTacToeList extends Component {
       }
     }
 
-    function calculateForLength4() {
-      for (let i = 0; i < 4; i++) {
-        let spliceArr = [...filteredPlayersIndexArray];
+    function calculateForLength4(filteredPlayersIndex) {
+      for (let i = 0; i < filteredPlayersIndex.length; i++) {
+        let spliceArr = [...filteredPlayersIndex];
         spliceArr.splice(i, 1);
         calculateForLength3(spliceArr);
       }
     }
 
-    if (filteredPlayersIndexArray.length === 3) {
-      calculateForLength3(filteredPlayersIndexArray);
-    } else if (filteredPlayersIndexArray.length === 4) {
-      calculateForLength4();
-    } else if (filteredPlayersIndexArray.length === 5) {
-      for (let i = 0; i < filteredPlayersIndexArray.length; i++) {
-        let spliceArr = [...filteredPlayersIndexArray];
+    if (filteredPlayersIndex.length === 3) {
+      calculateForLength3(filteredPlayersIndex);
+    } else if (filteredPlayersIndex.length === 4) {
+      calculateForLength4(filteredPlayersIndex);
+    } else if (filteredPlayersIndex.length === 5) {
+      for (let i = 0; i < filteredPlayersIndex.length; i++) {
+        let spliceArr = [...filteredPlayersIndex];
         spliceArr.splice(i, 1);
-        calculateForLength4();
+        calculateForLength4(spliceArr);
         calculateForLength3(spliceArr);
       }
     }
@@ -150,9 +157,13 @@ class TicTacToeList extends Component {
       finishGame = <p><strong>VICTORY:</strong> The game won the <strong>{this.state.winner}</strong> player</p>;
     }
     const ticTacListItem = this.state.ticTacBoard.map((field, index) => {
+      console.log(this.state.ticTacBoard);
       return (
-          <TicTacListItem playerClick={(e) => this.playerClickHandler(e, index)} key={index}>
-            {field}
+          <TicTacListItem
+              activeDrawWinner={field.drawField}
+              playerClick={(e) => this.playerClickHandler(e, index)}
+              key={index}>
+            {field.field}
           </TicTacListItem>
       );
     });

@@ -14,15 +14,19 @@ const BoxCSS = styled.div`
   cursor: pointer;
   z-index: 90;
   
+  &.activeDrawRed {
+    background: crimson;
+  }
+  
   &:hover {
     background: rgba(0,0,0, 0.2);
   }
 `;
 
 const TicTacListItem = (props) => {
-
+console.log(props.activeDrawWinner);
   return (
-      <BoxCSS onClick={props.playerClick}>
+      <BoxCSS className={props.activeDrawWinner ? 'activeDrawRed' : ''} onClick={props.playerClick}>
         {props.children}
       </BoxCSS>
   );
