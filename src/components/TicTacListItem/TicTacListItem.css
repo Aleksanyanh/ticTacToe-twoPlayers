@@ -1,0 +1,27 @@
+.boxCSS {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 60px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 90;
+}
+
+.hoverAll:hover {
+     background: rgba(0, 0, 0, 0.2)
+}
+
+.activeDrawRed {
+    background: crimson;
+}
+
+.activeDrawRed:hover {
+    background: crimson;
+}
+
+

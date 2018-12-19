@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Alert } from 'reactstrap';
 
 import TicTacListItem from '../../components/TicTacListItem/TicTacListItem';
 
 const BlockCSS = styled.div`
   display: flex;
+  background: teal;
+  margin-top: 25px;
   flex-wrap: wrap;
-  width: 306px;
+  width: 620px;
   box-shadow: 0 0 8px #661156;
   padding: 10px;
   z-index: 100;
@@ -21,6 +24,7 @@ class TicTacToeList extends Component {
     emptyField: '',
     fieldLimit: 9,
     winner: '',
+    warningMessage: false,
     startGame: false
   };
 
@@ -62,8 +66,8 @@ class TicTacToeList extends Component {
       [6, 7, 8]
     ];
     let filteredPlayersIndex = [];
-    updatedBoard.forEach((field, index) => {
-      if (field.field === player) {
+    updatedBoard.forEach((playerField, index) => {
+      if (playerField.field === player) {
         filteredPlayersIndex.push(index);
       }
     });
@@ -97,16 +101,25 @@ class TicTacToeList extends Component {
       }
     }
 
+    function calculateForLength5(filteredPlayersIndex) {
+      for (let i = 0; i < filteredPlayersIndex.length; i++) {
+        let spliceArr = [...filteredPlayersIndex];
+        spliceArr.splice(i, 1);
+        calculateForLength4(spliceArr);
+      }
+    }
+
     if (filteredPlayersIndex.length === 3) {
       calculateForLength3(filteredPlayersIndex);
     } else if (filteredPlayersIndex.length === 4) {
       calculateForLength4(filteredPlayersIndex);
     } else if (filteredPlayersIndex.length === 5) {
-      for (let i = 0; i < filteredPlayersIndex.length; i++) {
-        let spliceArr = [...filteredPlayersIndex];
-        spliceArr.splice(i, 1);
-        calculateForLength4(spliceArr);
-        calculateForLength3(spliceArr);
+      calculateForLength5(filteredPlayersIndex);
+      if (!winner) {
+        this.setState({
+          ticTacBoard: updatedBoard,
+          startGame: false
+        });
       }
     }
     return winner;
@@ -135,6 +148,7 @@ class TicTacToeList extends Component {
       this.setState({
         ticTacBoard: updatedBoard,
         nextPlayer: secondPlayer,
+        warningMessage: false,
         startGame: true
       });
       this.callWinner(firstPlayer, updatedBoard, 'First Player');
@@ -145,21 +159,48 @@ class TicTacToeList extends Component {
       this.setState({
         ticTacBoard: updatedBoard,
         nextPlayer: firstPlayer,
-        startGame: true
+        warningMessage: false,
       });
       this.callWinner(secondPlayer, updatedBoard, 'Second Player');
+    }
+
+    if (target !== '') {
+      this.setState({ warningMessage: true });
     }
   };
 
   render() {
-    let finishGame = null;
-    if (!this.state.startGame) {
-      finishGame = <p><strong>VICTORY:</strong> The game won the <strong>{this.state.winner}</strong> player</p>;
+    let warningMessage = '';
+    if (this.state.warningMessage) {
+      warningMessage = (
+          <Alert color="warning">
+            Ops! Pick Another Field
+          </Alert>
+      );
+    }
+    let finishGame = '';
+    if (this.state.winner && !this.state.startGame) {
+      finishGame = (
+          <Alert color="success">
+            <strong>VICTORY: </strong>
+            <strong>{this.state.winner} </strong> Won The Game
+          </Alert>
+      );
+    } else if (!this.state.winner && !this.state.startGame) {
+      finishGame = (
+          <Alert color="success">
+            <strong>EQUAL:  </strong>Start New Game
+          </Alert>
+      );
     }
     const ticTacListItem = this.state.ticTacBoard.map((field, index) => {
-      console.log(this.state.ticTacBoard);
+      let hoverAll = 'hoverAll';
+      if (!this.state.startGame) {
+        hoverAll = '';
+      }
       return (
           <TicTacListItem
+              hoverAll={hoverAll}
               activeDrawWinner={field.drawField}
               playerClick={(e) => this.playerClickHandler(e, index)}
               key={index}>
@@ -169,6 +210,7 @@ class TicTacToeList extends Component {
     });
     return (
         <div style={{ display: 'inline-block' }}>
+          {warningMessage}
           {finishGame}
           <BlockCSS>
             {ticTacListItem}
