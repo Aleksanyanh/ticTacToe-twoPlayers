@@ -40,17 +40,59 @@ class TicTacToeList extends Component {
     })
   }
 
+  playerClickHandler = (e, index) => {
+    if (!this.state.startGame) return;
+    const firstPlayer = this.state.firstPlayer;
+    const secondPlayer = this.state.secondPlayer;
+    const nextPlayer = this.state.nextPlayer;
+    const target = e.target.textContent;
+
+    if (target === '' && nextPlayer === firstPlayer) {
+      const updatedBoard = this.updateTicTacBoard(firstPlayer, index);
+      this.setState({
+        ticTacBoard: updatedBoard,
+        nextPlayer: secondPlayer,
+        warningMessage: false
+      });
+      this.callWinner(firstPlayer, updatedBoard, 'First Player');
+    }
+
+    if (target === '' && nextPlayer === secondPlayer) {
+      const updatedBoard = this.updateTicTacBoard(secondPlayer, index);
+      this.setState({
+        ticTacBoard: updatedBoard,
+        nextPlayer: firstPlayer,
+        warningMessage: false,
+      });
+      this.callWinner(secondPlayer, updatedBoard, 'Second Player');
+    }
+
+    if (target !== '') {
+      this.setState({ warningMessage: true });
+    }
+  };
+
   updateTicTacBoard = (player, playerIndex) => {
     const board = [...this.state.ticTacBoard];
-    return board.map((field, index) => {
+    return board.map((playerField, index) => {
       if (index === playerIndex) {
-        const newBoard = field;
-        newBoard.field = player;
-        return newBoard;
+        playerField.field = player;
+        return playerField;
       } else {
-        return field;
+        return playerField;
       }
     });
+  };
+
+  callWinner = (player, updatedBoard, winnerName) => {
+    const winner = this.checkWinner(player, updatedBoard);
+    if (winner) {
+      this.setState({
+        ticTacBoard: updatedBoard,
+        winner: winnerName,
+        startGame: false
+      });
+    }
   };
 
   checkWinner = (player, updatedBoard) => {
@@ -65,7 +107,7 @@ class TicTacToeList extends Component {
       [3, 4, 5],
       [6, 7, 8]
     ];
-    let filteredPlayersIndex = [];
+    const filteredPlayersIndex = [];
     updatedBoard.forEach((playerField, index) => {
       if (playerField.field === player) {
         filteredPlayersIndex.push(index);
@@ -125,50 +167,6 @@ class TicTacToeList extends Component {
     return winner;
   };
 
-  callWinner = (player, updatedBoard, winnerName) => {
-    const winner = this.checkWinner(player, updatedBoard);
-    if (winner) {
-      this.setState({
-        ticTacBoard: updatedBoard,
-        winner: winnerName,
-        startGame: false
-      });
-    }
-  };
-
-  playerClickHandler = (e, index) => {
-    if (!this.state.startGame) return;
-    const firstPlayer = this.state.firstPlayer;
-    const secondPlayer = this.state.secondPlayer;
-    const nextPlayer = this.state.nextPlayer;
-    const target = e.target.textContent;
-
-    if (target === '' && nextPlayer === firstPlayer) {
-      const updatedBoard = this.updateTicTacBoard(firstPlayer, index);
-      this.setState({
-        ticTacBoard: updatedBoard,
-        nextPlayer: secondPlayer,
-        warningMessage: false,
-        startGame: true
-      });
-      this.callWinner(firstPlayer, updatedBoard, 'First Player');
-    }
-
-    if (target === '' && nextPlayer === secondPlayer) {
-      const updatedBoard = this.updateTicTacBoard(secondPlayer, index);
-      this.setState({
-        ticTacBoard: updatedBoard,
-        nextPlayer: firstPlayer,
-        warningMessage: false,
-      });
-      this.callWinner(secondPlayer, updatedBoard, 'Second Player');
-    }
-
-    if (target !== '') {
-      this.setState({ warningMessage: true });
-    }
-  };
-
   render() {
     let warningMessage = '';
     if (this.state.warningMessage) {
@@ -189,7 +187,7 @@ class TicTacToeList extends Component {
     } else if (!this.state.winner && !this.state.startGame) {
       finishGame = (
           <Alert color="success">
-            <strong>EQUAL:  </strong>Start New Game
+            <strong>EQUAL: </strong>Start New Game
           </Alert>
       );
     }
