@@ -1,10 +1,9 @@
 .App {
     width: 100%;
     height: 100vh;
-    background-image: url("images/architecture-building-business-258160.jpg");
+    background-image: url("images/pexels-photo-129742.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
-    text-align: center;
     padding: 20px;
     box-sizing: border-box;
 }

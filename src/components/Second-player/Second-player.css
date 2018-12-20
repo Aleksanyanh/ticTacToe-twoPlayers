@@ -1,0 +1,35 @@
+.secondPlayer {
+    width: 100%;
+    height: 620px;
+    margin: 25px 0 0 25px;
+    color: brown;
+    text-align: right;
+    padding: 30px;
+}
+
+.rightSide h3 {
+    font-size: 22px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.rightSide h3 span {
+    color: white;
+}
+
+.rightSide .O {
+    margin-bottom: 40px;
+}
+
+.rightSide .O img {
+    height: 60px;
+}
+
+.rightSide h3 {
+    border-bottom: 1px solid gray;
+}
+
+.activePlayer2 {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-left: 5px solid crimson;
+}

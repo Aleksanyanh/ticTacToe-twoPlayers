@@ -4,7 +4,12 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import './Header.css';
 
 class Header extends Component {
-
+  initGameHandler = () => {
+    this.props.history.push('/newGame');
+  };
+  resetGameHandler = () => {
+    this.props.history.push('/');
+  };
   render() {
     return (
         <div className="formContainer">
@@ -17,9 +22,9 @@ class Header extends Component {
               <Label for="secondName">Second Player</Label>
               <Input type="text" id="secondName" placeholder="Enter Your Name" />
             </FormGroup>
-            <Button className="myBtn" type="button" color="success">Start New
+            <Button onClick={this.initGameHandler} className="myBtn" type="button" color="secondary">New
               Game</Button>
-            <Button className="myBtn" type="button" color="danger">Reset Game</Button>
+            <Button onClick={this.resetGameHandler} className="myBtn" type="button" color="secondary">Reset</Button>
           </Form>
         </div>
     );

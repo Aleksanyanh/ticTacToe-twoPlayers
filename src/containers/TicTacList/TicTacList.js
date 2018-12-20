@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { Alert } from 'reactstrap';
 
 import TicTacListItem from '../../components/TicTacListItem/TicTacListItem';
+import FirstPlayer from '../../components/First-player/First-player';
+import SecondPlayer from '../../components/Second-player/Second-player';
+import Aux from '../../hoc/Aux';
 
 const BlockCSS = styled.div`
   display: flex;
@@ -12,7 +15,11 @@ const BlockCSS = styled.div`
   width: 620px;
   box-shadow: 0 0 8px #661156;
   padding: 10px;
-  z-index: 100;
+`;
+
+const ContentCSS = styled.div`
+  width: 100%;
+  display: flex;
 `;
 
 class TicTacToeList extends Component {
@@ -25,10 +32,11 @@ class TicTacToeList extends Component {
     fieldLimit: 9,
     winner: '',
     warningMessage: false,
-    startGame: false
+    startGame: false,
   };
 
   componentWillMount() {
+    console.log('componentWill');
     const initTicTacBoard = [];
     for (let i = 0; i < this.state.fieldLimit; i++) {
       initTicTacBoard.push({ field: this.state.emptyField, drawField: '' });
@@ -168,6 +176,7 @@ class TicTacToeList extends Component {
   };
 
   render() {
+    console.log(this.state.ticTacBoard);
     let warningMessage = '';
     if (this.state.warningMessage) {
       warningMessage = (
@@ -207,13 +216,23 @@ class TicTacToeList extends Component {
       );
     });
     return (
-        <div style={{ display: 'inline-block' }}>
-          {warningMessage}
-          {finishGame}
-          <BlockCSS>
-            {ticTacListItem}
-          </BlockCSS>
-        </div>
+        <Aux>
+          <div style={{textAlign: 'center'}}>
+            <div style={{ display: 'inline-block', width: '620px' }}>
+              {warningMessage}
+              {finishGame}
+            </div>
+          </div>
+          <ContentCSS>
+            <FirstPlayer />
+            <div>
+              <BlockCSS>
+                {ticTacListItem}
+              </BlockCSS>
+            </div>
+            <SecondPlayer />
+          </ContentCSS>
+        </Aux>
     );
   }
 }

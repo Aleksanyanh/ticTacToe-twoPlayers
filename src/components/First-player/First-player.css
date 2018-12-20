@@ -1,0 +1,35 @@
+.firstPlayer {
+    width: 100%;
+    height: 620px;
+    margin: 25px 25px 0 0;
+    color: brown;
+    text-align: left;
+    padding: 30px;
+}
+
+.leftSide h3 {
+    font-size: 22px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+}
+
+.leftSide h3 span {
+    color: white;
+}
+
+.leftSide h3 {
+    border-bottom: 1px solid gray;
+}
+
+.leftSide .X {
+    margin-bottom: 40px;
+}
+
+.leftSide .X img {
+    height: 60px;
+}
+
+.activePlayer1 {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-right: 5px solid crimson;
+}

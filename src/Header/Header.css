@@ -17,8 +17,20 @@
     text-align: initial;
 }
 
+.box input {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.box input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+}
+
 .myBtn {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
+    background: brown !important;
     margin: auto 5px;
 }
