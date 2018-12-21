@@ -32,64 +32,78 @@ class TicTacToeList extends Component {
   }
 
   render() {
-    const { ticTacBoard, winner, warningMessage, startGame, playerClick } = this.props;
-    let warningMessageLocal = '';
-    if (warningMessage) {
-      warningMessageLocal = (
-          <Alert color="warning">
-            Ops! Pick Another Field
-          </Alert>
-      );
-    }
-    let finishGame = '';
-    if (winner && !startGame) {
-      finishGame = (
-          <Alert color="success">
-            <strong>VICTORY: </strong>
-            <strong>{winner} </strong> Won The Game
-          </Alert>
-      );
-    } else if (!winner && !startGame) {
-      finishGame = (
-          <Alert color="success">
-            <strong>NO WINNER: </strong>Start New Game
-          </Alert>
-      );
-    }
-    const ticTacListItem = ticTacBoard.map((field, index) => {
-      let hoverAll = 'hoverAll';
-      if (!startGame) {
-        hoverAll = '';
+    let readyToStartGame = null;
+    if (this.props.savedPlayer && !this.props.errorMessage) {
+      const { firstPlayerName, secondPlayerName, scores, ticTacBoard, winner, warningMessage, startGame, playerClick } = this.props;
+      let warningMessageDefault = '';
+      if (warningMessage) {
+        warningMessageDefault = (
+            <Alert color="warning">
+              Ops! Pick Another Field
+            </Alert>
+        );
       }
-      return (
-          <TicTacListItem
-              hoverAll={hoverAll}
-              activeDrawWinner={field.drawField}
-              playerClick={(e) => playerClick(e, index)}
-              key={index}>
-            {field.field}
-          </TicTacListItem>
+      let finishGame = '';
+      if (winner && !startGame) {
+        finishGame = (
+            <Alert color="success">
+              <strong>VICTORY: </strong>
+              <strong>{winner} </strong> won the game
+            </Alert>
+        );
+      } else if (!winner && !startGame) {
+        finishGame = (
+            <Alert color="success">
+              <strong>NO WINNER: </strong>Start new game
+            </Alert>
+        );
+      }
+      const ticTacListItem = ticTacBoard.map((field, index) => {
+        let hoverAll = 'hoverAll';
+        if (!startGame) {
+          hoverAll = '';
+        }
+        return (
+            <TicTacListItem
+                hoverAll={hoverAll}
+                activeDrawWinner={field.drawField}
+                playerClick={(e) => playerClick(e, index)}
+                key={index}>
+              {field.field}
+            </TicTacListItem>
+        );
+      });
+
+      readyToStartGame = (
+          <Aux>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ display: 'inline-block', width: '620px' }}>
+                {warningMessageDefault}
+                {finishGame}
+              </div>
+            </div>
+            <ContentCSS>
+              <FirstPlayer name={firstPlayerName} score={scores[0]} />
+              <div>
+                <BlockCSS>
+                  {ticTacListItem}
+                </BlockCSS>
+              </div>
+              <SecondPlayer name={secondPlayerName} score={scores[1]} />
+            </ContentCSS>
+          </Aux>
       );
-    });
-    return (
-        <Aux>
+    } else if (!this.props.savedPlayer && this.props.errorMessage) {
+      readyToStartGame = (
           <div style={{ textAlign: 'center' }}>
-            <div style={{ display: 'inline-block', width: '620px' }}>
-              {warningMessageLocal}
-              {finishGame}
-            </div>
+            <Alert color="danger" style={{display: 'inline-block', width: '30%'}}>
+              <strong>Please select your names</strong>
+            </Alert>
           </div>
-          <ContentCSS>
-            <FirstPlayer />
-            <div>
-              <BlockCSS>
-                {ticTacListItem}
-              </BlockCSS>
-            </div>
-            <SecondPlayer />
-          </ContentCSS>
-        </Aux>
-    );
+      );
+    }
+
+    return readyToStartGame;
   }
 }
 

@@ -9,8 +9,8 @@ const firstPlayer = (props) => {
       <div className={style.join(' ')}>
         <div className="leftSide">
           <div className="X"><img src={X} alt="First Player" /></div>
-          <h3>First: <span>Jean</span></h3>
-          <h3>Score: <span>1</span></h3>
+          <h3>First Player: <span>{props.name}</span></h3>
+          <h3>Score: <span>{props.score}</span></h3>
         </div>
       </div>
   );

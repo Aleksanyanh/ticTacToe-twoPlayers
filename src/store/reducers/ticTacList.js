@@ -1,7 +1,16 @@
-import { INIT_GAME, PLAYER_CLICK } from '../actionTypes';
+import {
+  INIT_GAME,
+  INPUT_FIRST_PLAYER_NAME,
+  INPUT_SECOND_PLAYER_NAME,
+  PLAYER_CLICK, RESET_GAME,
+  SAVE_PLAYERS
+} from '../actionTypes';
 
 const initialState = {
   ticTacBoard: [],
+  firstPlayerName: '',
+  secondPlayerName: '',
+  savedPlayer: false,
   firstPlayer: 'X',
   secondPlayer: '0',
   nextPlayer: '',
@@ -9,11 +18,57 @@ const initialState = {
   fieldLimit: 9,
   winner: '',
   warningMessage: false,
-  scores: {
-    firstScore: 0,
-    secondScore: 0
-  },
+  scores: [0, 0],
   startGame: false,
+};
+
+const resetGame = (state, action) => {
+  return {
+    ...state,
+    ticTacBoard: [],
+    firstPlayerName: '',
+    secondPlayerName: '',
+    savedPlayer: false,
+    nextPlayer: '',
+    emptyField: '',
+    winner: '',
+    warningMessage: false,
+    errorMessage: false,
+    scores: [0, 0],
+    startGame: false,
+  }
+};
+
+const inputFirstPlayerName = (state, action) => {
+  action.event.persist();
+  return {
+    ...state,
+    firstPlayerName: action.event.target.value
+  }
+};
+
+const inputSecondPlayerName = (state, action) => {
+  action.event.persist();
+  return {
+    ...state,
+    secondPlayerName: action.event.target.value
+  }
+};
+
+const savePlayers = (state, action) => {
+  if (state.firstPlayerName.trim() && state.secondPlayerName.trim()) {
+    return {
+      ...state,
+      savedPlayer: true,
+      errorMessage: false
+    }
+  }
+
+  return {
+    ...state,
+    errorMessage: true
+  }
+
 };
 
 // START THE GAME FROM SCRATCH
@@ -35,42 +90,46 @@ const initGame = (state, action) => {
 
 // CONTINUE THE GAME UNTIL ONE PLAYER WIN OR THE GAME IS OVER END NO WINNER
 const playerClick = (state, action) => {
-  action.event.persist();
+  if (state.savedPlayer) {
+    action.event.persist();
 
-  // IF THERE IS A WINNER THE GAME IS OVER AND DON'T LET CONTINUE THE GAME
-  if (!state.startGame) return state;
-  const ticTacBoard = [...state.ticTacBoard];
-  const firstPlayer = state.firstPlayer;
-  const secondPlayer = state.secondPlayer;
-  const nextPlayer = state.nextPlayer;
-  const target = action.event.target.textContent;
+    // IF THERE IS A WINNER THE GAME IS OVER AND DON'T LET CONTINUE THE GAME
+    if (!state.startGame) return state;
+    const ticTacBoard = [...state.ticTacBoard];
+    const firstPlayer = state.firstPlayer;
+    const secondPlayer = state.secondPlayer;
+    const nextPlayer = state.nextPlayer;
+    const firstPlayerName = state.firstPlayerName;
+    const secondPlayerName = state.secondPlayerName;
+    const target = action.event.target.textContent;
 
-  // THE FIRST PLAYER TURN
-  if (target === '' && nextPlayer === firstPlayer) {
+    // THE FIRST PLAYER TURN
+    if (target === '' && nextPlayer === firstPlayer) {
 
-    // UPDATE THE STATE EVERY TIME WHEN THE FIRST PLAYER PICK AN EMPTY FIELD
-    const updatedBoard = updateTicTacBoard(ticTacBoard, firstPlayer, action.index);
+      // UPDATE THE STATE EVERY TIME WHEN THE FIRST PLAYER PICK AN EMPTY FIELD
+      const updatedBoard = updateTicTacBoard(ticTacBoard, firstPlayer, action.index);
 
-    // CALCULATE AND CHECK IF THE FIRST PLAYER, END THE GAME, OTHERWISE CONTINUE
-    return callWinner(firstPlayer, secondPlayer, updatedBoard, 'First Player', state);
-  }
+      // CALCULATE AND CHECK IF THE FIRST PLAYER, END THE GAME, OTHERWISE CONTINUE
+      return callWinner(firstPlayer, secondPlayer, updatedBoard, firstPlayerName, state);
+    }
 
-  // THE SECOND PLAYER TURN
-  if (target === '' && nextPlayer === secondPlayer) {
+    // THE SECOND PLAYER TURN
+    if (target === '' && nextPlayer === secondPlayer) {
 
-    // UPDATE THE STATE EVERY TIME WHEN THE SECOND PLAYER PICK ON EMPTY FIELD
-    const updatedBoard = updateTicTacBoard(ticTacBoard, secondPlayer, action.index);
+      // UPDATE THE STATE EVERY TIME WHEN THE SECOND PLAYER PICK ON EMPTY FIELD
+      const updatedBoard = updateTicTacBoard(ticTacBoard, secondPlayer, action.index);
 
-    // CALCULATE AND CHECK IF THE SECOND PLAYER WIN, END THE GAME, OTHERWISE CONTINUE
-    return callWinner(secondPlayer, firstPlayer, updatedBoard, 'Second Player', state);
-  }
+      // CALCULATE AND CHECK IF THE SECOND PLAYER WIN, END THE GAME, OTHERWISE CONTINUE
+      return callWinner(secondPlayer, firstPlayer, updatedBoard, secondPlayerName, state);
+    }
 
-  // IF THE PLAYER PICK ON PICKED FIELD SHOW WARNING
-  if (target !== '') {
-    return {
-      ...state,
-      warningMessage: true
-    };
+    // IF THE PLAYER PICK ON PICKED FIELD SHOW WARNING
+    if (target !== '') {
+      return {
+        ...state,
+        warningMessage: true
+      };
+    }
   }
 
   return state;
@@ -192,9 +251,20 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case INIT_GAME: return initGame(state, action);
-    case PLAYER_CLICK: return playerClick(state, action);
-    default: return state;
+    case INPUT_FIRST_PLAYER_NAME:
+      return inputFirstPlayerName(state, action);
+    case INPUT_SECOND_PLAYER_NAME:
+      return inputSecondPlayerName(state, action);
+    case SAVE_PLAYERS:
+      return savePlayers(state, action);
+    case RESET_GAME:
+      return resetGame(state, action);
+    case INIT_GAME:
+      return initGame(state, action);
+    case PLAYER_CLICK:
+      return playerClick(state, action);
+    default:
+      return state;
   }
 };
 
