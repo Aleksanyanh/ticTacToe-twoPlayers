@@ -5,10 +5,10 @@ import './Header.css';
 
 class Header extends Component {
   initGameHandler = () => {
-    this.props.history.push('/newGame');
+
   };
   resetGameHandler = () => {
-    this.props.history.push('/');
+
   };
   render() {
     return (
@@ -22,7 +22,7 @@ class Header extends Component {
               <Label for="secondName">Second Player</Label>
               <Input type="text" id="secondName" placeholder="Enter Your Name" />
             </FormGroup>
-            <Button onClick={this.initGameHandler} className="myBtn" type="button" color="secondary">New
+            <Button onClick={this.initGameHandler} className="myBtn" color="secondary">New
               Game</Button>
             <Button onClick={this.resetGameHandler} className="myBtn" type="button" color="secondary">Reset</Button>
           </Form>

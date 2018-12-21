@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './Second-player.css';
-import O from '../../images/tic-tac-toe-O.png';
+import O from '../../assets/images/tic-tac-toe-O.png';
 
 const secondPlayer = (props) => {
   const style = ['secondPlayer', 'activePlayer2'];

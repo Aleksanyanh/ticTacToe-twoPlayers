@@ -1,7 +1,7 @@
 import React from 'react';
 
 import './First-player.css';
-import X from '../../images/tic-tac-toe-X.png'
+import X from '../../assets/images/tic-tac-toe-X.png'
 
 const firstPlayer = (props) => {
   const style = ['firstPlayer', 'activePlayer1'];
