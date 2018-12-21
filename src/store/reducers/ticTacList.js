@@ -35,10 +35,10 @@ const initGame = (state, action) => {
 
 // CONTINUE THE GAME UNTIL ONE PLAYER WIN OR THE GAME IS OVER END NO WINNER
 const playerClick = (state, action) => {
+  action.event.persist();
 
   // IF THERE IS A WINNER THE GAME IS OVER AND DON'T LET CONTINUE THE GAME
-  if (!state.startGame) return;
-
+  if (!state.startGame) return state;
   const ticTacBoard = [...state.ticTacBoard];
   const firstPlayer = state.firstPlayer;
   const secondPlayer = state.secondPlayer;
@@ -72,6 +72,8 @@ const playerClick = (state, action) => {
       warningMessage: true
     };
   }
+
+  return state;
 };
 
 const updateTicTacBoard = (ticTacBoard, player, playerIndex) => {
