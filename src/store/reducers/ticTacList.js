@@ -24,38 +24,22 @@ const initialState = {
   startGame: false,
 };
 
-const resetGame = (state, action) => {
-
-  // INITIATE THE STATE AND DRAW THE TIC TAC TOE BOARD WHEN THE GAME START
-  const initBoard = init(state);
-
-  return {
-    ...state,
-    ticTacBoard: initBoard
-  }
-};
-
 // START THE GAME FROM SCRATCH
 const initGame = (state, action) => {
 
   // INITIATE THE STATE AND DRAW THE TIC TAC TOE BOARD WHEN THE GAME START
-  const initBoard = init(state);
-
-  return {
-    ...state,
-    ticTacBoard: initBoard,
-    nextPlayer: 'X',
-    startGame: true
-  }
-};
-
-const init = (state) => {
   const initBoard = [];
   for (let i = 0; i < state.fieldLimit; i++) {
     initBoard.push({ field: state.emptyField, drawField: '' });
   }
 
-  return initBoard;
+  return {
+    ...state,
+    ticTacBoard: initBoard,
+    nextPlayer: 'X',
+    winner: '',
+    startGame: true
+  }
 };
 
 const inputFirstPlayerName = (state, action) => {
@@ -118,21 +102,13 @@ const playerClick = (state, action) => {
 
     // THE FIRST PLAYER TURN
     if (target === '' && nextPlayer === firstPlayer) {
-
-      // UPDATE THE STATE EVERY TIME WHEN THE FIRST PLAYER PICK AN EMPTY FIELD
       const updatedBoard = updateTicTacBoard(ticTacBoard, firstPlayer, action.index);
-
-      // CALCULATE AND CHECK IF THE FIRST PLAYER, END THE GAME, OTHERWISE CONTINUE
       return callWinner(firstPlayer, secondPlayer, updatedBoard, firstPlayerName, state);
     }
 
     // THE SECOND PLAYER TURN
     if (target === '' && nextPlayer === secondPlayer) {
-
-      // UPDATE THE STATE EVERY TIME WHEN THE SECOND PLAYER PICK ON EMPTY FIELD
       const updatedBoard = updateTicTacBoard(ticTacBoard, secondPlayer, action.index);
-
-      // CALCULATE AND CHECK IF THE SECOND PLAYER WIN, END THE GAME, OTHERWISE CONTINUE
       return callWinner(secondPlayer, firstPlayer, updatedBoard, secondPlayerName, state);
     }
 
@@ -148,6 +124,7 @@ const playerClick = (state, action) => {
   return state;
 };
 
+// UPDATE THE STATE EVERY TIME WHEN THE PLAYER PICK AN EMPTY FIELD
 const updateTicTacBoard = (ticTacBoard, player, playerIndex) => {
   let newBoard = [...ticTacBoard];
   newBoard.map((playerField, index) => {
@@ -161,6 +138,7 @@ const updateTicTacBoard = (ticTacBoard, player, playerIndex) => {
   return newBoard;
 };
 
+// CALCULATE AND CHECK IF THERE IS A WINNER, END THE GAME, OTHERWISE CONTINUE
 const callWinner = (winningPlayer, loosingPlayer, updatedBoard, winnerName, state) => {
   const winner = checkWinner(winningPlayer, updatedBoard, state);
   if (winner === 'nowinner') {
@@ -168,6 +146,7 @@ const callWinner = (winningPlayer, loosingPlayer, updatedBoard, winnerName, stat
       ...state,
       ticTacBoard: updatedBoard,
       winner: '',
+      warningMessage: false,
       startGame: false
     };
   } else if (winner) {
@@ -279,7 +258,7 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case RESET_GAME:
-      return resetGame(state, action);
+      return state = initialState;
     case INIT_GAME:
       return initGame(state, action);
     case INPUT_FIRST_PLAYER_NAME:

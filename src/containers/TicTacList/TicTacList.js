@@ -31,6 +31,12 @@ class TicTacToeList extends Component {
     this.props.initGame();
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.savedPlayer !== this.props.savedPlayer) {
+      this.props.initGame();
+    }
+  }
+
   render() {
     let readyToStartGame = null;
     if (this.props.savedPlayer && !this.props.errorMessage) {
