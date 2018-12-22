@@ -4,7 +4,8 @@ import './First-player.css';
 import X from '../../assets/images/tic-tac-toe-X.png'
 
 const firstPlayer = (props) => {
-  const style = ['firstPlayer', 'activePlayer1'];
+  const style = ['firstPlayer', props.activePlayer];
+  console.log(1111,style);
   return (
       <div className={style.join(' ')}>
         <div className="leftSide">

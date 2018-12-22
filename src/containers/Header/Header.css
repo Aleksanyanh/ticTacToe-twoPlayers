@@ -14,7 +14,11 @@
 .box {
     margin: 10px 5px;
     display: inline-block;
-    text-align: initial;
+    color: #fff;
+    text-align: left;
+    font-size: 20px;
+    padding-bottom: 5px;
+    letter-spacing: 1px;
 }
 
 .box input {
@@ -34,4 +38,5 @@
     background: brown !important;
     margin: 0 5px 2px 5px;
     height: 40px;
+    letter-spacing: 1px;
 }

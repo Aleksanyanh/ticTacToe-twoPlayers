@@ -4,8 +4,7 @@ import './TicTacListItem.css';
 
 class TicTacListItem extends Component {
   render() {
-    let boxCSS = ['boxCSS'];
-    boxCSS.push(this.props.hoverAll);
+    let boxCSS = ['boxCSS', this.props.hoverAll];
     if (this.props.activeDrawWinner) {
       boxCSS.push('activeDrawRed');
     }

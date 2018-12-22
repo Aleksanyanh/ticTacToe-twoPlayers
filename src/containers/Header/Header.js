@@ -22,15 +22,15 @@ class Header extends Component {
             <Input onChange={this.props.inputSecondPlayerName} value={this.props.secondPlayerName} type="text"
                    id="secondName" placeholder="Enter Your Name" />
           </FormGroup>
-          <Button onClick={this.props.savePlayers} className="myBtn" color="secondary">Start</Button>
+          <Button onClick={this.props.savePlayers} className="myBtn" color="secondary">START</Button>
         </Aux>
     );
 
     if (this.props.savedPlayer) {
       startGame = (
           <Aux>
-            <Button onClick={this.props.initGame} className="myBtn" color="secondary">New Game</Button>
-            <Button onClick={this.props.resetGame} className="myBtn" type="button" color="secondary">Reset</Button>
+            <Button onClick={this.props.initGame} className="myBtn" color="secondary">NEW GAME</Button>
+            <Button onClick={this.props.resetGame} className="myBtn" type="button" color="secondary">RESET</Button>
           </Aux>
       );
     }

@@ -3,6 +3,7 @@ export const mapStateToProps = (state) => {
     savedPlayer: state.savedPlayer,
     firstPlayerName: state.firstPlayerName,
     secondPlayerName: state.secondPlayerName,
+    nextPlayer: state.nextPlayer,
     scores: state.scores,
     ticTacBoard: state.ticTacBoard,
     winner: state.winner,

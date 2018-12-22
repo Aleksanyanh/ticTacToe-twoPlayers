@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
-    background-image: url("assets/images/board-game-elder-elderly-18497.jpg");
-    background-size: 100% 100%;
+    background-image: url("assets/images/board-bricks-brickwork-269063.jpg");
+    background-size: cover;
     background-repeat: no-repeat;
 }
