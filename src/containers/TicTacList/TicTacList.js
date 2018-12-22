@@ -62,7 +62,7 @@ class TicTacToeList extends Component {
       }
       const ticTacListItem = ticTacBoard.map((field, index) => {
         let hoverAll = 'hoverAll';
-        if (!startGame) {
+        if (!startGame || field.field) {
           hoverAll = '';
         }
         return (
