@@ -97,7 +97,7 @@ const checkValidity = (firstPLayerName, secondPLayerName) => {
   return (
       isAlphanumeric(firstPLayerName) && isAlphanumeric(secondPLayerName) &&
       isLength(firstPLayerName, { min: 2, max: 30 }) && isLength(secondPLayerName, { min: 2, max: 30 }) &&
-      !isInt(firstPLayerName[0]) && !isInt(firstPLayerName[0])
+      !isInt(firstPLayerName[0]) && !isInt(secondPLayerName[0])
   )
 };
 

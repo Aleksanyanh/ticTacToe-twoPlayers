@@ -13,16 +13,16 @@ class Header extends Component {
     let startGame = (
         <Aux>
           <FormGroup className="box">
-            <Label for="firstName">First Player (X)</Label>
+            <Label for="firstName"><strong>First Player (X)</strong></Label>
             <Input onChange={this.props.inputFirstPlayerName} value={this.props.firstPlayerName} type="text"
                    id="firstName" placeholder="Enter Your Name" />
           </FormGroup>
           <FormGroup className="box">
-            <Label for="secondName">Second Player (0)</Label>
+            <Label for="secondName"><strong>Second Player (0)</strong></Label>
             <Input onChange={this.props.inputSecondPlayerName} value={this.props.secondPlayerName} type="text"
                    id="secondName" placeholder="Enter Your Name" />
           </FormGroup>
-          <Button onClick={this.props.savePlayers} className="myBtn" color="secondary">Save</Button>
+          <Button onClick={this.props.savePlayers} className="myBtn" color="secondary">Start</Button>
         </Aux>
     );
 
