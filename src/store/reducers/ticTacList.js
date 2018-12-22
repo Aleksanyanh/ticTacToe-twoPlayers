@@ -94,11 +94,11 @@ const savePlayers = (state, action) => {
 };
 
 const checkValidity = (firstPLayerName, secondPLayerName) => {
-  let isValid =
+  return (
       isAlphanumeric(firstPLayerName) && isAlphanumeric(secondPLayerName) &&
       isLength(firstPLayerName, { min: 2, max: 30 }) && isLength(secondPLayerName, { min: 2, max: 30 }) &&
       !isInt(firstPLayerName[0]) && !isInt(firstPLayerName[0])
-  return isValid;
+  )
 };
 
 // CONTINUE THE GAME UNTIL ONE PLAYER WIN OR THE GAME IS OVER END NO WINNER
