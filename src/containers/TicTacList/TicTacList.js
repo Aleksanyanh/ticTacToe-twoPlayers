@@ -28,6 +28,7 @@ const ContentCSS = styled.div`
 class TicTacToeList extends Component {
 
   componentWillMount() {
+    console.log('tdfjghkl');
     this.props.initGame();
   }
 

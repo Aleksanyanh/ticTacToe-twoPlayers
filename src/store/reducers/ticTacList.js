@@ -23,9 +23,13 @@ const initialState = {
 };
 
 const resetGame = (state, action) => {
+
+  // INITIATE THE STATE AND DRAW THE TIC TAC TOE BOARD WHEN THE GAME START
+  const initBoard = init(state);
+
   return {
     ...state,
-    ticTacBoard: [],
+    ticTacBoard: initBoard,
     firstPlayerName: '',
     secondPlayerName: '',
     savedPlayer: false,
@@ -37,6 +41,29 @@ const resetGame = (state, action) => {
     scores: [0, 0],
     startGame: false,
   }
+};
+
+// START THE GAME FROM SCRATCH
+const initGame = (state, action) => {
+
+  // INITIATE THE STATE AND DRAW THE TIC TAC TOE BOARD WHEN THE GAME START
+  const initBoard = init(state);
+
+  return {
+    ...state,
+    ticTacBoard: initBoard,
+    nextPlayer: 'X',
+    startGame: true
+  }
+};
+
+const init = (state) => {
+  const initBoard = [];
+  for (let i = 0; i < state.fieldLimit; i++) {
+    initBoard.push({ field: state.emptyField, drawField: '' });
+  }
+
+  return initBoard;
 };
 
 const inputFirstPlayerName = (state, action) => {
@@ -69,23 +96,6 @@ const savePlayers = (state, action) => {
     errorMessage: true
   }
 
-};
-
-// START THE GAME FROM SCRATCH
-const initGame = (state, action) => {
-
-  // INITIATE THE STATE AND DRAW THE TIC TAC TOE BOARD WHEN THE GAME START
-  const initTicTacBoard = [];
-  for (let i = 0; i < state.fieldLimit; i++) {
-    initTicTacBoard.push({ field: state.emptyField, drawField: '' });
-  }
-
-  return {
-    ...state,
-    ticTacBoard: initTicTacBoard,
-    nextPlayer: 'X',
-    startGame: true
-  }
 };
 
 // CONTINUE THE GAME UNTIL ONE PLAYER WIN OR THE GAME IS OVER END NO WINNER
@@ -157,10 +167,20 @@ const callWinner = (winningPlayer, loosingPlayer, updatedBoard, winnerName, stat
       startGame: false
     };
   } else if (winner) {
+    let localScores = [...state.scores];
+    let firstScore = localScores[0];
+    let secondScore = localScores[1];
+    if (winner === 'X') {
+      firstScore++;
+    } else {
+      secondScore++;
+    }
+    localScores = [firstScore, secondScore];
     return {
       ...state,
       ticTacBoard: updatedBoard,
       winner: winnerName,
+      scores: localScores,
       warningMessage: false,
       startGame: false
     };
@@ -208,6 +228,7 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
 
   // CALCULATE AND CHECK THE WINNER IF THE PLAYER PICK 3 TIME
   function calculateForLength3(filteredPlayersLength3) {
+    // debugger
     for (let i = 0; i < winnerModel.length; i++) {
       let counter = 0;
       let drawWinnerLocalBox = [];
@@ -251,16 +272,16 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case RESET_GAME:
+      return resetGame(state, action);
+    case INIT_GAME:
+      return initGame(state, action);
     case INPUT_FIRST_PLAYER_NAME:
       return inputFirstPlayerName(state, action);
     case INPUT_SECOND_PLAYER_NAME:
       return inputSecondPlayerName(state, action);
     case SAVE_PLAYERS:
       return savePlayers(state, action);
-    case RESET_GAME:
-      return resetGame(state, action);
-    case INIT_GAME:
-      return initGame(state, action);
     case PLAYER_CLICK:
       return playerClick(state, action);
     default:
