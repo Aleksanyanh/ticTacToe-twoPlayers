@@ -14,23 +14,23 @@ class Header extends Component {
         <div className="formContainer">
           <Form className="myForm">
             <FormGroup className="box">
-              <Label for="firstName">First Player</Label>
+              <Label for="firstName">First Player (X)</Label>
               <Input onChange={this.props.inputFirstPlayerName} value={this.props.firstPlayerName} type="text"
                      id="firstName" placeholder="Enter Your Name" />
             </FormGroup>
             <FormGroup className="box">
-              <Label for="secondName">Second Player</Label>
+              <Label for="secondName">Second Player (0)</Label>
               <Input onChange={this.props.inputSecondPlayerName} value={this.props.secondPlayerName} type="text"
                      id="secondName" placeholder="Enter Your Name" />
             </FormGroup>
             <Button onClick={this.props.savePlayers} className="myBtn" color="secondary">Save</Button>
             {
-              this.props.savedPlayer ? (
+              this.props.savedPlayer ?
                   <Aux>
                     <Button onClick={this.props.initGame} className="myBtn" color="secondary">New Game</Button>
                     <Button onClick={this.props.resetGame} className="myBtn" type="button" color="secondary">Reset</Button>
                   </Aux>
-              ) : null
+               : null
             }
 
           </Form>

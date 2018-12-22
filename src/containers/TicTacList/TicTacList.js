@@ -98,7 +98,7 @@ class TicTacToeList extends Component {
       readyToStartGame = (
           <div style={{ textAlign: 'center' }}>
             <Alert color="danger" style={{display: 'inline-block', width: '30%'}}>
-              <strong>Please select your names</strong>
+              <strong>Please choose correct name!</strong>
             </Alert>
           </div>
       );

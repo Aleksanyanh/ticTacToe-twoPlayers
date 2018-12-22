@@ -14,7 +14,8 @@
     "react-scripts": "2.1.1",
     "reactstrap": "^6.5.0",
     "redux": "^4.0.1",
-    "styled-components": "^4.1.2"
+    "styled-components": "^4.1.2",
+    "validator": "^10.9.0"
   },
   "scripts": {
     "start": "react-scripts start",

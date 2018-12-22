@@ -6,6 +6,8 @@ import {
   SAVE_PLAYERS
 } from '../actionTypes';
 
+import { isAlphanumeric, isLength, isInt } from 'validator';
+
 const initialState = {
   ticTacBoard: [],
   firstPlayerName: '',
@@ -73,7 +75,10 @@ const inputSecondPlayerName = (state, action) => {
 };
 
 const savePlayers = (state, action) => {
-  if (state.firstPlayerName.trim() && state.secondPlayerName.trim()) {
+  const firstPLayerName = state.firstPlayerName;
+  const secondPLayerName = state.secondPlayerName;
+  const valid = checkValidity(firstPLayerName, secondPLayerName);
+  if (valid) {
     return {
       ...state,
       savedPlayer: true,
@@ -86,6 +91,14 @@ const savePlayers = (state, action) => {
     errorMessage: true
   }
 
+};
+
+const checkValidity = (firstPLayerName, secondPLayerName) => {
+  let isValid =
+      isAlphanumeric(firstPLayerName) && isAlphanumeric(secondPLayerName) &&
+      isLength(firstPLayerName, { min: 2, max: 30 }) && isLength(secondPLayerName, { min: 2, max: 30 }) &&
+      !isInt(firstPLayerName[0]) && !isInt(firstPLayerName[0])
+  return isValid;
 };
 
 // CONTINUE THE GAME UNTIL ONE PLAYER WIN OR THE GAME IS OVER END NO WINNER
