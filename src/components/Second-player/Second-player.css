@@ -2,7 +2,7 @@
     width: 100%;
     height: 620px;
     margin: 25px 0 0 25px;
-    color: #F6003B;
+    color: black;
     text-align: right;
     padding: 30px;
 }
@@ -11,8 +11,7 @@
     font-size: 24px;
     padding-bottom: 5px;
     margin-bottom: 20px;
-    font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 .rightSide h3 span {
