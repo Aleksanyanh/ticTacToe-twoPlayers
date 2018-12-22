@@ -199,26 +199,21 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
     }
   });
   if (filteredPlayersIndex.length === 3) {
-    calculateForLength3(filteredPlayersIndex);
-  } else if (filteredPlayersIndex.length === 4) {
-    calculateForLength4(filteredPlayersIndex);
-  } else if (filteredPlayersIndex.length === 5) {
-    calculateForLength5(filteredPlayersIndex);
-
-    // CHECK IF ALL FIELDS ARE PICKED AND THERE IS NO WINNER, END THE GAME
-    if (!winner) {
+    checkWinnerForLength3(filteredPlayersIndex);
+  } else if (filteredPlayersIndex.length > 3) {
+    spliceIfLengthIsGreaterThen3(filteredPlayersIndex);
+    if (filteredPlayersIndex.length === 5 && !winner) {
       winner = 'nowinner';
     }
   }
 
   // CALCULATE AND CHECK THE WINNER IF THE PLAYER PICK 3 TIME
-  function calculateForLength3(filteredPlayersLength3) {
-    // debugger
+  function checkWinnerForLength3(filteredPlayersIndex) {
     for (let i = 0; i < winnerModel.length; i++) {
       let counter = 0;
       let drawWinnerLocalBox = [];
       for (let j = 0; j < 3; j++) {
-        if (winnerModel[i][j] === filteredPlayersLength3[j]) {
+        if (winnerModel[i][j] === filteredPlayersIndex[j]) {
           counter++;
           drawWinnerLocalBox.push(winnerModel[i][j]);
           if (counter > 2) {
@@ -234,22 +229,21 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
     }
   }
 
-  // CALCULATE AND CHECK THE WINNER IF THE PLAYER PICK 4 TIME
-  function calculateForLength4(filteredPlayersIndex) {
+  // CALCULATE AND CHECK THE WINNER IF THE PLAYER PICK MORE THEN 3 TIME
+  function spliceIfLengthIsGreaterThen3(filteredPlayersIndex) {
     for (let i = 0; i < filteredPlayersIndex.length; i++) {
       let spliceArr = [...filteredPlayersIndex];
       spliceArr.splice(i, 1);
-      calculateForLength3(spliceArr);
+      if (filteredPlayersIndex.length === 4) {
+        checkWinnerForLength3(spliceArr);
+      } else {
+        repeatIfLength5(spliceArr);
+      }
     }
   }
 
-  // CALCULATE AND CHECK THE WINNER IF THE PLAYER PICK 5 TIME
-  function calculateForLength5(filteredPlayersIndex) {
-    for (let i = 0; i < filteredPlayersIndex.length; i++) {
-      let spliceArr = [...filteredPlayersIndex];
-      spliceArr.splice(i, 1);
-      calculateForLength4(spliceArr);
-    }
+  function repeatIfLength5(filteredPlayersIndex) {
+    spliceIfLengthIsGreaterThen3(filteredPlayersIndex);
   }
 
   return winner;
