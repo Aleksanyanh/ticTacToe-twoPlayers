@@ -27,10 +27,6 @@ const ContentCSS = styled.div`
 
 class TicTacToeList extends Component {
 
-  componentWillMount() {
-    this.props.initGame();
-  }
-
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.savedPlayer !== this.props.savedPlayer) {
       this.props.initGame();
