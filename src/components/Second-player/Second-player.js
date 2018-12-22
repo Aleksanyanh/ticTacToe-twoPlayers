@@ -5,7 +5,6 @@ import O from '../../assets/images/tic-tac-toe-O.png';
 
 const secondPlayer = (props) => {
   const style = ['secondPlayer', props.activePlayer];
-  console.log(1111,style);
   return (
       <div className={style.join(' ')}>
         <div className="rightSide">

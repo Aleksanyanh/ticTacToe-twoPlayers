@@ -35,7 +35,6 @@ class TicTacToeList extends Component {
     let readyToStartGame = null;
     if (this.props.savedPlayer && !this.props.errorMessage) {
       const { firstPlayerName, secondPlayerName, nextPlayer, scores, ticTacBoard, winner, warningMessage, startGame, playerClick } = this.props;
-      console.log(nextPlayer);
       let warningMessageDefault = '';
       if (warningMessage) {
         warningMessageDefault = (
@@ -84,20 +83,26 @@ class TicTacToeList extends Component {
               </div>
             </div>
             <ContentCSS>
-              <FirstPlayer activePlayer={nextPlayer === 'X' ? 'activePlayer' : ''} name={firstPlayerName} score={scores[0]} />
+              <FirstPlayer
+                  activePlayer={nextPlayer === 'X' ? 'activePlayer' : ''}
+                  name={firstPlayerName}
+                  score={scores[0]} />
               <div>
                 <BlockCSS>
                   {ticTacListItem}
                 </BlockCSS>
               </div>
-              <SecondPlayer activePlayer={nextPlayer === '0' ? 'activePlayer' : ''} name={secondPlayerName} score={scores[1]} />
+              <SecondPlayer
+                  activePlayer={nextPlayer === '0' ? 'activePlayer' : ''}
+                  name={secondPlayerName}
+                  score={scores[1]} />
             </ContentCSS>
           </Aux>
       );
     } else if (!this.props.savedPlayer && this.props.errorMessage) {
       readyToStartGame = (
           <div style={{ textAlign: 'center' }}>
-            <Alert color="danger" style={{display: 'inline-block', width: '30%'}}>
+            <Alert color="danger" style={{ display: 'inline-block', width: '30%' }}>
               <strong>Please choose correct name!</strong>
             </Alert>
           </div>
