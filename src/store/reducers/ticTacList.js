@@ -29,17 +29,7 @@ const resetGame = (state, action) => {
 
   return {
     ...state,
-    ticTacBoard: initBoard,
-    firstPlayerName: '',
-    secondPlayerName: '',
-    savedPlayer: false,
-    nextPlayer: '',
-    emptyField: '',
-    winner: '',
-    warningMessage: false,
-    errorMessage: false,
-    scores: [0, 0],
-    startGame: false,
+    ticTacBoard: initBoard
   }
 };
 
@@ -160,13 +150,16 @@ const updateTicTacBoard = (ticTacBoard, player, playerIndex) => {
 
 const callWinner = (winningPlayer, loosingPlayer, updatedBoard, winnerName, state) => {
   const winner = checkWinner(winningPlayer, updatedBoard, state);
-  if (winner === 'no') {
+  if (winner === 'nowinner') {
     return {
       ...state,
       ticTacBoard: updatedBoard,
+      winner: '',
       startGame: false
     };
   } else if (winner) {
+
+    // CALCULATE WINNER SCORES
     let localScores = [...state.scores];
     let firstScore = localScores[0];
     let secondScore = localScores[1];
@@ -222,7 +215,7 @@ const checkWinner = (winningPlayer, updatedBoard, state) => {
 
     // CHECK IF ALL FIELDS ARE PICKED AND THERE IS NO WINNER, END THE GAME
     if (!winner) {
-      winner = 'no';
+      winner = 'nowinner';
     }
   }
 
