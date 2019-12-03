@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import TicTacListItem from '../../components/TicTacListItem/TicTacListItem';
 import FirstPlayer from '../../components/First-player/First-player';
 import SecondPlayer from '../../components/Second-player/Second-player';
-import Aux from '../../hoc/Aux';
 import { mapStateToProps } from './redux-selectors/mapStateToProps';
 import { mapDispatchToProps } from './redux-selectors/mapDispatchToProps';
 
@@ -77,7 +76,7 @@ class TicTacToeList extends Component {
       });
 
       readyToStartGame = (
-          <Aux>
+          <>
             <div style={{ textAlign: 'center' }}>
               <div style={{ display: 'inline-block', width: '620px' }}>
                 {warningMessageDefault}
@@ -99,7 +98,7 @@ class TicTacToeList extends Component {
                   name={secondPlayerName}
                   score={scores[1]} />
             </ContentCSS>
-          </Aux>
+          </>
       );
     } else if (!this.props.savedPlayer && this.props.errorMessage) {
       readyToStartGame = (
